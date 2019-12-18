@@ -1,0 +1,11 @@
+server:
+  port: 9090
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+spring:
+  datasource:
+    name: miaosha
+    url: jdbc:mysql://localhost:3306/miaosha?useSSL=true
+    hikari:
+      username: root
+      password: root

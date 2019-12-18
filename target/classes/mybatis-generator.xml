@@ -1,0 +1,31 @@
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="Mysql" targetRuntime="MyBatis3">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/miaosha"
+                        userId="root"
+                        password="root">
+        </jdbcConnection>
+
+        <!--生成DataObject类存放位置-->
+        <javaModelGenerator targetPackage="xyz.chowzzx.miaoshaproject.dataobject"
+                            targetProject="src/main/java"/>
+        <!--mapper.xml-->
+        <sqlMapGenerator targetPackage="mapping"
+                         targetProject="src/main/resources"/>
+        <!--mapper接口-->
+        <javaClientGenerator targetPackage="xyz.chowzzx.miaoshaproject.dao"
+                             targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+
+        <!--为那张表生成代码-->
+        <table tableName="user_info" domainObjectName="UserDO"></table>
+        <table tableName="user_password" domainObjectName="UserPasswordDO"></table>
+    </context>
+</generatorConfiguration>
