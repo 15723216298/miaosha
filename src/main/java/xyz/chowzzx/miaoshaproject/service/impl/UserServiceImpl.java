@@ -12,38 +12,38 @@ import xyz.chowzzx.miaoshaproject.service.model.UserModel;
 
 /**
  * @author Chowzzx
- * @date 2019/12/13 - 1:14 PM
+ * @date 2019/12/19 - 9:48 AM
  */
 @Service
-public class UserServiceImpl implements UserService  {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDOMapper userDOMapper;
-
     @Autowired
     private UserPasswordDOMapper userPasswordDOMapper;
 
     @Override
-    public UserModel getByUserId(Integer id) {
+    public UserModel getUserById(Integer id) {
+        //调用userDOMapper获取对应的dataObject
         UserDO userDO = userDOMapper.selectByPrimaryKey(id);
+        if(userDO == null){
+            return null;
+        }
+        //UserModel不仅包含了userDo，还有一个encrptPassword属性
         UserPasswordDO userPasswordDO = userPasswordDOMapper.selectByUserId(userDO.getId());
-        UserModel userModel = convert2UserModel(userDO, userPasswordDO);
+        UserModel userModel = convertFromDataObject(userDO, userPasswordDO);
         return userModel;
     }
 
-    public UserModel getById(Integer id){
-        UserDO userDO = userDOMapper.selectByPrimaryKey(id);
-        UserPasswordDO userPasswordDO = userPasswordDOMapper.selectByPrimaryKey(id);
-        UserModel userModel = convert2UserModel(userDO, userPasswordDO);
-        return userModel;
-    }
-
-
-
-    public UserModel convert2UserModel(UserDO userDO, UserPasswordDO userPasswordDO){
+    public UserModel convertFromDataObject(UserDO userDO, UserPasswordDO userPasswordDO){
         UserModel userModel = new UserModel();
+        if(userDO == null){
+            return null;
+        }
         BeanUtils.copyProperties(userDO,userModel);
-        userModel.setEncrptPassword(userPasswordDO.getEncrptPassword());
+        if(userPasswordDO != null){
+            userModel.setEncrptPassword(userPasswordDO.getEncrptPassword());
+        }
         return userModel;
     }
 }
